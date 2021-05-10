@@ -1,12 +1,38 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Routes from './routes';
 import reportWebVitals from './reportWebVitals';
+import { AppContext } from './store'
+import { BrowserRouter } from 'react-router-dom'
+
+const Provider = () => {
+
+  const initialState = {
+    user: { name: 'test' }
+  }
+
+  const [state, setState] = useState(initialState);
+
+  const providerValue = useMemo(() => ({
+    state,
+    setState: ((updates) => {
+      setState((prevState) => ({ ...prevState, ...updates }));
+    })
+  }), [state, setState]);
+
+  return (
+    <BrowserRouter>
+      <AppContext.Provider value={providerValue}>
+        <Routes />
+      </AppContext.Provider>
+    </BrowserRouter>
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider />
   </React.StrictMode>,
   document.getElementById('root')
 );
