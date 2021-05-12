@@ -8,6 +8,11 @@ import {
 
 //import routes
 import Login from './screens/auth/login'
+import SignUp from './screens/auth/sign-up'
+import ForgetPw from './screens/auth/forget-pw'
+import ResetPw from './screens/auth/reset-pw'
+import Suc from './screens/home/index'
+
 
 const Routes = () => {
 
@@ -22,26 +27,12 @@ const Routes = () => {
     const checkLoginAndNavigate = () => {
         let token = localStorage.getItem('TOKEN')
 
-        // window.location.replace(token ? '/home' : '/auth/login')
+        // window.location.replace(token ? '/home/index' : '/auth/login')
     }
 
     return (
         <Router>
-            <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/auth/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/users">Users</Link>
-                        </li>
-                    </ul>
-                </nav>
-
+ 
                 <Switch>
                     <Route
                         exact
@@ -49,7 +40,7 @@ const Routes = () => {
                         render={() => {
                             return (
                                 isUserAuthenticated ?
-                                    <Redirect to="/home" /> :
+                                    <Redirect to="/home/index" /> :
                                     <Redirect to="/auth/login" />
                             )
                         }}
@@ -57,14 +48,20 @@ const Routes = () => {
                     <Route path="/auth/login">
                         <Login />
                     </Route>
-                    <Route path="/users">
-                        <Users />
+                    <Route path="/auth/sign-up">
+                        <SignUp />
                     </Route>
-                    <Route path="/">
-                        <Home />
+                    <Route path="/auth/forget-pw">
+                        <ForgetPw />
+                    </Route>
+                    <Route path="/auth/reset-pw/:token">
+                        <ResetPw />
+                    </Route>
+                    <Route path="/home/index">
+                        <Suc />
                     </Route>
                 </Switch>
-            </div>
+        
         </Router>
     );
 }
