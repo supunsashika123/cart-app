@@ -4,14 +4,16 @@ import Login from './pages/auth/login'
 import Home from './pages/home/index'
 
 //admin routes
-import AddProduct from './pages/admin/addProduct'
+import AddFood from './pages/admin/addFood'
+import Foods from './pages/admin/foods'
 
 const userRoutes = [
     { path: "/home", component: Home },
 ]
 
 const adminRoutes = [
-    { path: "/admin/new-product", component: AddProduct },
+    { path: "/admin/new-product", component: AddFood },
+    { path: "/admin/products", component: Foods },
 ]
 
 const authRoutes = [

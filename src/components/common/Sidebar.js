@@ -91,15 +91,15 @@ const Sidebar = props => {
                 <li>
                   <Link to="/#" className="has-arrow waves-effect">
                     <i className="bx bx-store"></i>
-                    <span>Products</span>
+                    <span>Food Items</span>
                   </Link>
                   <ul className="sub-menu" aria-expanded="true">
                     <li>
-                      <Link to="/ecommerce-products">Products</Link>
+                      <Link to="/admin/products">Food Item List</Link>
                     </li>
                     <li>
                       <Link to="/admin/new-product">
-                        Add Product
+                        Add New Food
                                             </Link>
                     </li>
                   </ul>

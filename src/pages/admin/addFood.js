@@ -19,7 +19,7 @@ import { httpPostRequest } from "../../helpers/networkRequestHelper"
 import toastr from "toastr"
 import "toastr/build/toastr.min.css"
 
-const AddProduct = () => {
+const AddFood = () => {
 
   const [selectedFiles, setselectedFiles] = useState([])
   const [name, setName] = useState('')
@@ -226,4 +226,4 @@ const AddProduct = () => {
   );
 }
 
-export default AddProduct;
+export default AddFood;
