@@ -50,6 +50,32 @@ export async function httpGetRequest(params = null) {
     });
 }
 
+export async function httpDeleteRequest(params = null) {
+  console.log(BASE_API_URL + params.url);
+  let token = ''
+
+  return fetch(BASE_API_URL + params.url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  })
+    .then(async (response) => {
+      if (response.status === 403) {
+      }
+
+      return response.json();
+    })
+    .then(async (responseJson) => {
+      return responseJson;
+    })
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+}
+
+
 export async function httpPostRequest(params) {
   console.log(BASE_API_URL + params.url);
   let token = ''
