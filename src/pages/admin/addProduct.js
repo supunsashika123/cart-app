@@ -1,5 +1,7 @@
 import React, { useState } from "react"
+import { useEffect } from "react/cjs/react.development"
 import {
+  Alert,
   Button,
   Card,
   CardBody,
@@ -13,6 +15,9 @@ import {
   Label,
   Row
 } from "reactstrap"
+import { httpPostRequest } from "../../helpers/networkRequestHelper"
+import toastr from "toastr"
+import "toastr/build/toastr.min.css"
 
 const AddProduct = () => {
 
@@ -21,14 +26,14 @@ const AddProduct = () => {
   const [price, setPrice] = useState('')
   const [category, setCategory] = useState('')
   const [description, setDescription] = useState('')
+  const [formErrors, setFormErrors] = useState([])
 
-
-  const handleSaveButtonClick = () => {
+  const handleSaveButtonClick = async () => {
     const payload = {
       name, price, category, description
     }
-
-    console.log(payload)
+    setFormErrors([])
+    await submitFoodItem(payload)
   }
 
   const clearFields = () => {
@@ -38,12 +43,27 @@ const AddProduct = () => {
     setDescription('')
   }
 
+  const submitFoodItem = async (payload) => {
+    let res = await httpPostRequest({
+      url: 'food',
+      body: payload
+    })
+
+    if (res.error) {
+      toastr.error("Add food failed.", "Error!")
+      setFormErrors(res.errors)
+
+      return
+    }
+
+    toastr.success("Food item added successfull.", "Success!")
+    clearFields()
+  }
+
   return (
     <React.Fragment>
       <div className="page-content">
-
         <Container fluid>
-
           <Row>
             <Col xs="12">
               <Card>
@@ -105,6 +125,13 @@ const AddProduct = () => {
                         </div>
                       </Col>
                     </Row>
+                    <div style={{ width: 500 }}>
+                      {formErrors.length > 0 && formErrors.map(e =>
+                      (<Alert color="danger" role="alert">
+                        {e.msg}
+                      </Alert>))
+                      }
+                    </div>
                     <div className="d-flex flex-wrap gap-2">
                       <Button
                         type="button"
@@ -131,7 +158,7 @@ const AddProduct = () => {
                 <CardBody>
                   <CardTitle className="mb-3">Product Images</CardTitle>
                   <Form> */}
-                    {/* <Dropzone
+              {/* <Dropzone
                                             onDrop={acceptedFiles => {
                                                 handleAcceptedFiles(acceptedFiles)
                                             }}
@@ -153,8 +180,8 @@ const AddProduct = () => {
                                                 </div>
                                             )}
                                         </Dropzone> */}
-                    {/* <div className="dropzone-previews mt-3" id="file-previews"> */}
-                      {/* {selectedFiles.map((f, i) => {
+              {/* <div className="dropzone-previews mt-3" id="file-previews"> */}
+              {/* {selectedFiles.map((f, i) => {
                                                 return (
                                                     <Card
                                                         className="mt-1 mb-0 shadow-none border dz-processing dz-image-preview dz-success dz-complete"
@@ -187,7 +214,7 @@ const AddProduct = () => {
                                                     </Card>
                                                 )
                                             })} */}
-                    {/* </div>
+              {/* </div>
                   </Form>
                 </CardBody>
               </Card> */}
