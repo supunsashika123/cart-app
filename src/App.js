@@ -6,6 +6,9 @@ import DashboardLayout from "./layouts/DashboardLayout"
 import AuthLayout from "./layouts/AuthLayout"
 import Authmiddleware from "./middlewares/AuthMiddleware"
 
+import "./assets/scss/theme.scss"
+
+
 const App = props => {
     return (
         <React.Fragment>
