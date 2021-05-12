@@ -15,6 +15,29 @@ import {
 } from "reactstrap"
 
 const AddProduct = () => {
+
+  const [selectedFiles, setselectedFiles] = useState([])
+  const [name, setName] = useState('')
+  const [price, setPrice] = useState('')
+  const [category, setCategory] = useState('')
+  const [description, setDescription] = useState('')
+
+
+  const handleSaveButtonClick = () => {
+    const payload = {
+      name, price, category, description
+    }
+
+    console.log(payload)
+  }
+
+  const clearFields = () => {
+    setName('')
+    setPrice('')
+    setCategory('')
+    setDescription('')
+  }
+
   return (
     <React.Fragment>
       <div className="page-content">
@@ -29,39 +52,18 @@ const AddProduct = () => {
                   <CardSubtitle className="mb-4">
                     Fill all information below
                   </CardSubtitle>
-
                   <Form>
                     <Row>
                       <Col sm="6">
                         <div className="mb-3">
-                          <Label htmlFor="productname">Product Name</Label>
+                          <Label htmlFor="productname">Food Name</Label>
                           <Input
                             id="productname"
                             name="productname"
                             type="text"
                             className="form-control"
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <Label htmlFor="manufacturername">
-                            Manufacturer Name
-                          </Label>
-                          <Input
-                            id="manufacturername"
-                            name="manufacturername"
-                            type="text"
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="mb-3">
-                          <Label htmlFor="manufacturerbrand">
-                            Manufacturer Brand
-                          </Label>
-                          <Input
-                            id="manufacturerbrand"
-                            name="manufacturerbrand"
-                            type="text"
-                            className="form-control"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                           />
                         </div>
                         <div className="mb-3">
@@ -71,6 +73,8 @@ const AddProduct = () => {
                             name="price"
                             type="text"
                             className="form-control"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                           />
                         </div>
                       </Col>
@@ -78,21 +82,14 @@ const AddProduct = () => {
                       <Col sm="6">
                         <div className="mb-3">
                           <Label className="control-label">Category</Label>
-                          <select className="form-control select2">
-                            <option>Select</option>
-                            <option value="FA">Fashion</option>
-                            <option value="EL">Electronic</option>
+                          <select
+                            className="form-control select2"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}>
+                            <option value="">Select</option>
+                            <option value="burger">Burger</option>
+                            <option value="sandwitch">Sandwitch</option>
                           </select>
-                        </div>
-                        <div className="mb-3">
-                          <Label className="control-label">Features</Label>
-                          {/* <Select
-                                                        classNamePrefix="select2-selection"
-                                                        placeholder="Choose..."
-                                                        title="Country"
-                                                        options={options}
-                                                        isMulti
-                                                    /> */}
                         </div>
                         <div className="mb-3">
                           <Label htmlFor="productdesc">
@@ -102,34 +99,38 @@ const AddProduct = () => {
                             className="form-control mb-3"
                             id="productdesc"
                             rows="5"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                           />
                         </div>
                       </Col>
                     </Row>
                     <div className="d-flex flex-wrap gap-2">
                       <Button
-                        type="submit"
+                        type="button"
                         color="primary"
                         className="btn waves-effect waves-light"
+                        onClick={() => handleSaveButtonClick()}
                       >
                         Save Changes
                     </Button>
                       <Button
-                        type="submit"
+                        type="button"
                         color="secondary"
                         className="waves-effect waves-effect waves-light"
+                        onClick={() => clearFields()}
                       >
-                        Cancel
+                        Clear
                     </Button>
                     </div>
                   </Form>
                 </CardBody>
               </Card>
 
-              <Card>
+              {/* <Card>
                 <CardBody>
                   <CardTitle className="mb-3">Product Images</CardTitle>
-                  <Form>
+                  <Form> */}
                     {/* <Dropzone
                                             onDrop={acceptedFiles => {
                                                 handleAcceptedFiles(acceptedFiles)
@@ -152,7 +153,7 @@ const AddProduct = () => {
                                                 </div>
                                             )}
                                         </Dropzone> */}
-                    <div className="dropzone-previews mt-3" id="file-previews">
+                    {/* <div className="dropzone-previews mt-3" id="file-previews"> */}
                       {/* {selectedFiles.map((f, i) => {
                                                 return (
                                                     <Card
@@ -186,10 +187,10 @@ const AddProduct = () => {
                                                     </Card>
                                                 )
                                             })} */}
-                    </div>
+                    {/* </div>
                   </Form>
                 </CardBody>
-              </Card>
+              </Card> */}
             </Col>
           </Row>
         </Container>
