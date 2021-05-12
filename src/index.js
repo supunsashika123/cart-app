@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Routes from './routes';
 import reportWebVitals from './reportWebVitals';
 import { AppContext } from './store'
 import { BrowserRouter } from 'react-router-dom'
+import App from './App';
 
 const Provider = () => {
 
@@ -24,7 +24,7 @@ const Provider = () => {
   return (
     <BrowserRouter>
       <AppContext.Provider value={providerValue}>
-        <Routes />
+        <App />
       </AppContext.Provider>
     </BrowserRouter>
   )
