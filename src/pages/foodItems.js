@@ -16,10 +16,24 @@ import { httpGetRequest } from "../helpers/networkRequestHelper"
 
 const FoodItems = () => {
   const [foods, setFoods] = useState([])
+  const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
     fetchFoods()
   }, []);
+
+  useEffect(() => {
+    searchFoods()
+  }, [searchValue])
+
+
+  const searchFoods = async () => {
+    let res = await httpGetRequest({
+      url: "food/search?name=" + searchValue
+    })
+
+    setFoods(res.data)
+  }
 
   const fetchFoods = async () => {
     let res = await httpGetRequest({
@@ -49,6 +63,7 @@ const FoodItems = () => {
                           type="text"
                           className="form-control border-0"
                           placeholder="Search..."
+                          onChange={(e) => setSearchValue(e.target.value)}
                         />
                         <i className="bx bx-search-alt search-icon" />
                       </div>
