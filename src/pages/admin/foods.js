@@ -95,20 +95,16 @@ const Foods = () => {
     setProductList(data)
   }
 
-  const rowFoods = async (row) => {
+
+  const handleItemEditClick = (row) => {
+    
     setFid(row._id)
     setName(row.name)
     setPrice(row.price)
     setDescription(row.description)
     setCategory(row.category)
     setImage(row.image)
-    console.log(row);
-
-  }
-
-  const handleItemEditClick = (row) => {
     setmodal(true)
-    rowFoods(row)
   }
 
   const handleItemDeleteClick = (row) => {
@@ -192,7 +188,7 @@ const Foods = () => {
       return false
     }
     setFormErrors([])
-    // await submitFoodItem(payload)
+    await fetchFoods()
   }
 
   const getBase64 = (file) => {
@@ -214,31 +210,6 @@ const Foods = () => {
     setselectedFiles([])
     setmodal(false)
   }
-
-  const submitFoodItem = async (payload,row) => {
-    setLoading(true)
-
-    let res = await httpPostRequest({
-      url: 'food',
-      body: payload
-    })
-
-    setLoading(false)
-
-    if (res.error) {
-      toastr.error("Add food failed.", "Error!")
-      setFormErrors(res.errors)
-
-      return
-    }
-
-    toastr.success("Food item added successfully.", "Success!")
-    clearFields()
-  }
-
-
-
-
 
 
   return (
