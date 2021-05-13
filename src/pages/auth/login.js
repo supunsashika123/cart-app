@@ -4,15 +4,20 @@ import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { AppContext } from '../../store';
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
 import { GoogleLogin } from "react-google-login"
+import ErrorPreviewer from '../../components/common/ErrorPreviewer';
+import toastr from "toastr"
 
 const Login = () => {
   const history = useHistory();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [formErrors, setFormErrors] = useState([])
   const [rememberMe, setRememberMe] = useState(false)
-
+  const { state, setState } = useContext(AppContext)
 
   const handleLoginPress = async () => {
+    setFormErrors([])
+
     let res = await httpPostRequest({
       url: 'user/login',
       body: {
@@ -21,14 +26,18 @@ const Login = () => {
       }
     })
 
-    if (res.isLogged) {
-      localStorage.setItem('TOKEN', res.token)
-      history.push("/home")
+    if (res.error) {
+      setFormErrors(res.errors)
+      return
     }
 
-    else {
-      console.log(res.message)
-    }
+    startUserSession(res.data.token, res.data.user)
+  }
+
+  const startUserSession = (token, user) => {
+    localStorage.setItem('TOKEN', token)
+    setState({ user: user })
+    window.location.replace('/home')
   }
 
   const onGoogleLoginSuccess = async (response) => {
@@ -38,62 +47,17 @@ const Login = () => {
         tokenID: response.tokenId
       }
     })
-    if (res.isLogged) {
-      console.log(res)
-      localStorage.setItem('TOKEN', res.token)
-      history.push("/home")
-    }
-    else {
-      console.log(res.message)
-    }
-  }
 
-  const OnGoogleLoginFailure = (response) => {
-    console.log(response)
-  }
+    if (res.error) {
+      toastr.error("User signup failed!", "Error!")
 
-  const goSignUp = () => {
-    history.push("/signup")
+      return
+    }
+
+    startUserSession(res.data.token, res.data.user)
   }
 
   return (
-    // <div>
-    //     {/* <div>Login!!! {state.user.name}</div>
-    //     <Button onClick={udpateState} title={'login'} /> */}
-
-    //     <form onSubmit={handleSubmit}>
-
-
-    //         <input
-    //             type="email"
-    //             name="email"
-    //             placeholder="Email"
-    //             value={formData.email}
-    //             onChange={handleChange}
-    //             required
-    //         />
-
-    //         <input
-    //             type="password"
-    //             name="password"
-    //             value={formData.password}
-    //             placeholder="Password"
-    //             onChange={handleChange}
-    //             required
-    //         />
-    //         <button type="submit">Login</button>
-    //         <button onClick = {goSignUp} >SignUp</button>
-    //         <Link to="/forgetpass" className="btn btn-primary">Forget Password?</Link>
-    //     </form>
-    //     <GoogleLogin
-    //         clientId="37361668095-bhna113hnh345ot5rpj7ddhfcubsr6sa.apps.googleusercontent.com"
-    //         buttonText="Login"
-    //         onSuccess={OnGoogleLoginSuccess}
-    //         onFailure={OnGoogleLoginFailure}
-    //         cookiePolicy={'single_host_origin'}
-    //     />
-    // </div>
-
     <React.Fragment>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
@@ -123,7 +87,7 @@ const Login = () => {
                       className="form-horizontal"
 
                     ><div className="mb-3">
-                      <Label>Email</Label>
+                        <Label>Email</Label>
                         <Input
                           name="email"
                           label="Email"
@@ -137,7 +101,7 @@ const Login = () => {
                       </div>
 
                       <div className="mb-3">
-                      <Label>Password</Label>
+                        <Label>Password</Label>
                         <Input
                           name="password"
                           label="Password"
@@ -163,10 +127,12 @@ const Login = () => {
                           Remember me
                         </label>
                       </div>
+                      <ErrorPreviewer errors={formErrors} />
                       <div className="mt-3 d-grid">
                         <button
                           className="btn btn-primary btn-block waves-effect waves-light"
-                          type="submit"
+                          type="button"
+                          onClick={() => handleLoginPress()}
                         >
                           Log In
                         </button>
