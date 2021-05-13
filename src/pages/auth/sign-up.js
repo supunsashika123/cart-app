@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login"
 import ErrorPreviewer from '../../components/common/ErrorPreviewer';
+import { AppContext } from '../../store';
 
 const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -11,6 +12,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [formErrors, setFormErrors] = useState([])
+  const { state, setState } = useContext(AppContext)
 
   const handleSignUpClick = async () => {
     setFormErrors([])
@@ -33,6 +35,8 @@ const SignUp = () => {
     }
 
     localStorage.setItem('TOKEN', res.data.token)
+    setState({ user: res.data.user })
+    window.location.replace('/home')
   }
 
   return (
