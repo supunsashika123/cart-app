@@ -1,12 +1,13 @@
 import React from "react"
+import Header from "../components/customer/Header";
 
 const CustomerLayout = (props) => {
-    return (
-        <React.Fragment>
-            this is the customer layout
-            {props.children}
-        </React.Fragment>
-    )
+  return (
+    <React.Fragment>
+      <Header />
+      {props.children}
+    </React.Fragment>
+  )
 }
 
 export default CustomerLayout;
