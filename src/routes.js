@@ -6,7 +6,7 @@ import Resetpass from './pages/auth/reset-pw'
 import FoodItems from './pages/foodItems'
 import Cart from './pages/cart'
 import Order from './pages/orders'
-import Product from './pages/product'
+import FoodItem from './pages/foodItem'
 
 //admin routes
 import AddFood from './pages/admin/addFood'
@@ -16,7 +16,7 @@ const userRoutes = [
   { path: "/", component: FoodItems },
   { path: "/cart", component: Cart },
   { path: "/orders", component: Order },
-  { path: "/product", component: Product },
+  { path: "/food/:id", component: FoodItem },
 ]
 
 const adminRoutes = [
