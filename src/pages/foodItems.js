@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 
-const Home = () => {
+const FoodItems = () => {
 
     const history = useHistory();
 
@@ -34,4 +34,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default FoodItems;
