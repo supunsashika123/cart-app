@@ -11,6 +11,7 @@ import FoodItem from './pages/foodItem'
 //admin routes
 import AddFood from './pages/admin/addFood'
 import Foods from './pages/admin/foods'
+import FoodOrders from './pages/admin/orders'
 
 const userRoutes = [
   { path: "/", component: FoodItems },
@@ -20,8 +21,9 @@ const userRoutes = [
 ]
 
 const adminRoutes = [
-  { path: "/admin/new-product", component: AddFood },
-  { path: "/admin/products", component: Foods },
+    { path: "/admin/new-product", component: AddFood },
+    { path: "/admin/products", component: Foods },
+    { path: "/admin/orders", component: FoodOrders },
 ]
 
 const authRoutes = [
