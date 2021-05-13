@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login"
 import ErrorPreviewer from '../../components/common/ErrorPreviewer';
 import { AppContext } from '../../store';
+import toastr from "toastr"
 
 const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -26,7 +27,6 @@ const SignUp = () => {
         confirmPassword: confirmPassword,
       }
     })
-    console.log(res.message)
 
     if (res.error) {
       setFormErrors(res.errors)
@@ -34,9 +34,30 @@ const SignUp = () => {
       return
     }
 
-    localStorage.setItem('TOKEN', res.data.token)
-    setState({ user: res.data.user })
+    startUserSession(res.data.token, res.data.user)
+  }
+
+  const startUserSession = (token, user) => {
+    localStorage.setItem('TOKEN', token)
+    setState({ user: user })
     window.location.replace('/home')
+  }
+
+  const onGoogleLoginSuccess = async (response) => {
+    let res = await httpPostRequest({
+      url: 'user/googlelogin',
+      body: {
+        tokenID: response.tokenId
+      }
+    })
+
+    if (res.error) {
+      toastr.error("User signup failed!", "Error!")
+
+      return
+    }
+
+    startUserSession(res.data.token, res.data.user)
   }
 
   return (
@@ -130,7 +151,7 @@ const SignUp = () => {
                         <h5 className="font-size-14 mb-3">Sign up with</h5>
                         <ul className="list-inline">
                           <li className="list-inline-item">
-                            {/* <GoogleLogin
+                            <GoogleLogin
                               clientId={'37361668095-bhna113hnh345ot5rpj7ddhfcubsr6sa.apps.googleusercontent.com'}
                               render={renderProps => (
                                 <Link
@@ -141,9 +162,9 @@ const SignUp = () => {
                                   <i className="mdi mdi-google" />
                                 </Link>
                               )}
-                              onSuccess={OnGoogleLoginSuccess}
+                              onSuccess={onGoogleLoginSuccess}
                               onFailure={() => { }}
-                            /> */}
+                            />
                           </li>
                         </ul>
                       </div>
