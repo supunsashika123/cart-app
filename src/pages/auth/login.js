@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import GoogleLogin from 'react-google-login'
 import { Link, useHistory } from "react-router-dom";
+import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { AppContext } from '../../store';
 import Button from '../../components/common/button'
 import axios from 'axios';
@@ -12,36 +13,25 @@ const Login = () => {
     const history = useHistory();
     const [formData, setFormData] = useState(initialState)
 
-    // const { state, setState } = useContext(AppContext)
 
-    // console.log(state)
-
-    // const udpateState = () => {
-    //     setState({ user: { ...state.user, name: 'updated name' } })
-    // }
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
 
-        axios({
-            method: "POST",
-            url: "http://localhost:4001/user/login",
-            data: {
-                email: formData.email,
-                password: formData.password,
-            }
-        }, {
-            headers: { "Access-Control-Allow-Origin": "*" }
-        }
-        ).then(response => {
-            if (response.data.isLogged) {
-                localStorage.setItem('TOKEN', response.data.token)
-                history.push("/home/index")
-            }
-            else{
-                console.log(response.data.message)
-            }
+        let res = await httpPostRequest({
+          url: 'user/login',
+          body: {
+            email : formData.email,
+            password : formData.password,
+          }
         })
+          if (res.isLogged) {
+            localStorage.setItem('TOKEN', res.token)
+            history.push("/home")
+        }
+        else{
+            console.log(res.message)
+        }
+
 
     }
     const handleChange = (e) => {
@@ -49,24 +39,23 @@ const Login = () => {
 
     }
 
-    const OnGoogleLoginSuccess = (response) => {
-        console.log(response.tokenId)
-        axios({
-            method: "POST",
-            url: "http://localhost:4001/user/googlelogin",
-            data: { tokenID: response.tokenId }
-        }, {
-            headers: { "Access-Control-Allow-Origin": "*" }
-        }
-        ).then(response => {
-           
-            if (response.data.isLogged) {
-                localStorage.setItem('TOKEN', response.data.token)
-                history.push("/home/index")
+    const OnGoogleLoginSuccess = async(response) => {
 
-            }
-            
-        })
+      let res = await httpPostRequest({
+        url: 'user/googlelogin',
+        body: {
+          tokenID: response.tokenId 
+        }
+      })
+        if (res.isLogged) {
+          console.log(res)
+          localStorage.setItem('TOKEN', res.token)
+          history.push("/home")
+      }
+      else{
+          console.log(res.message)
+      }
+       
     }
 
     const OnGoogleLoginFailure = (response) => {
@@ -74,7 +63,7 @@ const Login = () => {
     }
 
     const goSignUp = () =>{
-        history.push("/auth/sign-up")
+        history.push("/signup")
     }
 
     return (
@@ -104,7 +93,7 @@ const Login = () => {
                 />
                 <button type="submit">Login</button>
                 <button onClick = {goSignUp} >SignUp</button>
-                <Link to="/auth/forgot-pw" className="btn btn-primary">Forget Password?</Link>
+                <Link to="/forgetpass" className="btn btn-primary">Forget Password?</Link>
             </form>
             <GoogleLogin
                 clientId="37361668095-bhna113hnh345ot5rpj7ddhfcubsr6sa.apps.googleusercontent.com"

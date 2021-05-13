@@ -1,13 +1,8 @@
-
-//import routes
-// import Login from './screens/auth/login'
-import SignUp from './screens/auth/sign-up'
-import ForgetPw from './screens/auth/forget-pw'
-import ResetPw from './screens/auth/reset-pw'
-import Suc from './screens/home/index'
-
 //customer routes
 import Login from './pages/auth/login'
+import Signup from './pages/auth/sign-up'
+import Forgetpass from './pages/auth/forget-pw'
+import Resetpass from './pages/auth/reset-pw'
 import Home from './pages/home/index'
 
 //admin routes
@@ -25,6 +20,9 @@ const adminRoutes = [
 
 const authRoutes = [
     { path: "/login", component: Login },
+    { path: "/signup", component: Signup },
+    { path: "/forgetpass", component: Forgetpass },
+    { path: "/resetpass/:token", component: Resetpass },
 ]
 
 export { authRoutes, userRoutes, adminRoutes };

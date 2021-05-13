@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react'
 import axios from 'axios';
+import { httpGetRequest } from '../../helpers/networkRequestHelper';
 import { useParams } from 'react-router';
 
 const initialState = { email: '', password: '' }
@@ -10,13 +11,13 @@ const ResetPw = () => {
     const [formData, setFormData] = useState(initialState)
 
     useEffect(() => {
-      
-        axios.get('http://localhost:4001/user/reset',{
-            params: {
-                token : token
-            },
-        })
-        console.log();
+      const handle = async () => {
+      let res = await httpGetRequest({
+        url: 'user/reset?token='+ token,
+      })  
+      console.log(res);
+      }
+      handle();
     }, [])
 
     const handleSubmit = (e) => {

@@ -1,55 +1,52 @@
 import React, { useState } from 'react'
 
-import axios from 'axios';
+import { httpPostRequest } from '../../helpers/networkRequestHelper';
 
-const initialState = { email: '', password: '' }
+const initialState = { email: '' }
 
 const ForgetPw = () => {
 
-    const [formData, setFormData] = useState(initialState)
+  const [formData, setFormData] = useState(initialState)
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-         axios({
-            method: "POST",
-            url: "http://localhost:4001/user/forget-pw",
-            data: { 
-                email : formData.email,
-            }
-        },{
-            headers: {"Access-Control-Allow-Origin": "*"}
-        }
-        ).then(response => {
-            console.log(response)
-        })
-    }
-    const handleChange = (e) => {
-        setFormData({...formData, [e.target.name] : e.target.value})
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
 
-  
-    return (
-        <div>
+    let res = await httpPostRequest({
+      url: 'user/forget-pw',
+      body: {
+        email: formData.email,
+      }
+    })
+    
 
-            <form onSubmit={handleSubmit}>
+  }
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
 
-                <input
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    onChange={handleChange}
-                    required
-                />
+  return (
+    <div>
+
+      <form onSubmit={handleSubmit}>
 
 
-                <button type="submit">Send</button>
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
 
-            </form>
+
+        <button type="submit">Send</button>
+
+      </form>
 
 
-        </div>
-    );
+    </div>
+  );
 }
 
 export default ForgetPw;
