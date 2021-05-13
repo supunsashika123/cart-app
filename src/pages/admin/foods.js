@@ -19,9 +19,8 @@ import {
   Button,
   Form
 } from "reactstrap"
-
 import BootstrapTable from "react-bootstrap-table-next"
-import { httpPostRequest, httpGetRequest, httpDeleteRequest, httpPutRequest } from "../../helpers/networkRequestHelper"
+import { httpGetRequest, httpDeleteRequest, httpPutRequest } from "../../helpers/networkRequestHelper"
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import toastr from "toastr"
@@ -31,12 +30,6 @@ import Dropzone from "react-dropzone"
 
 
 const Foods = () => {
-  const pageOptions = {
-    sizePerPage: 10,
-    totalSize: 50,
-    custom: true,
-  }
-
   const columns = [{
     dataField: '_id',
     text: 'Item ID'
@@ -73,7 +66,7 @@ const Foods = () => {
   },];
 
   const [productList, setProductList] = useState([])
-  const [modal_standard, setmodal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [selectedFiles, setselectedFiles] = useState([])
   const [image, setImage] = useState()
   const [name, setName] = useState('')
@@ -92,19 +85,20 @@ const Foods = () => {
     let { data } = await httpGetRequest({
       url: 'food'
     })
+
     setProductList(data)
   }
 
 
   const handleItemEditClick = (row) => {
-    
     setFid(row._id)
     setName(row.name)
     setPrice(row.price)
     setDescription(row.description)
     setCategory(row.category)
     setImage(row.image)
-    setmodal(true)
+
+    setShowModal(true)
   }
 
   const handleItemDeleteClick = (row) => {
@@ -138,17 +132,6 @@ const Foods = () => {
     await fetchFoods()
   }
 
-
-
-  const tog_standard = () => {
-    setmodal(true)
-    removeBodyCss()
-  }
-
-  const removeBodyCss = () => {
-    document.body.classList.add("no_padding")
-  }
-
   function handleAcceptedFiles(files) {
     files.map(file =>
       Object.assign(file, {
@@ -173,21 +156,24 @@ const Foods = () => {
 
 
   const handleSaveButtonClick = async () => {
-  
     const payload = {
       name, price, category, description, image: image
     }
+
     let res = await httpPutRequest({
       url: 'food/' + fid,
       body: payload
     })
 
     if (res.error) {
-      toastr.error("Add food failed.", "Error!")
+      toastr.error("Update food failed.", "Error!")
 
       return false
     }
+
     setFormErrors([])
+    setShowModal(false)
+
     await fetchFoods()
   }
 
@@ -208,7 +194,8 @@ const Foods = () => {
     setCategory('')
     setDescription('')
     setselectedFiles([])
-    setmodal(false)
+
+    setShowModal(false)
   }
 
 
@@ -220,7 +207,6 @@ const Foods = () => {
             <Col xs="12">
               <Card>
                 <CardBody>
-
                   <React.Fragment>
                     <Row>
                       <Col xl="12">
@@ -247,10 +233,8 @@ const Foods = () => {
           </Row>
           <Modal
             style={{ maxWidth: 1000 }}
-            isOpen={modal_standard}
-            toggle={tog_standard}
+            isOpen={showModal}
           >
-
             <Container fluid>
               <Row>
                 <Col xs="12">
@@ -323,7 +307,7 @@ const Foods = () => {
                       <CardTitle className="mb-3">Product Images</CardTitle>
                       <Form>
                         <Dropzone
-                           style={{ minHeight: 100 }}
+                          style={{ minHeight: 100 }}
                           onDrop={acceptedFiles => {
                             handleAcceptedFiles(acceptedFiles)
                           }}
