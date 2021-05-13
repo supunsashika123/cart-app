@@ -1,80 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { httpGetRequest } from '../../helpers/networkRequestHelper';
+import React, { useState } from 'react'
+import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { useParams } from 'react-router';
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
 import { Link } from "react-router-dom";
+import toastr from "toastr"
 
-const initialState = { email: '', password: '' }
 
 const ResetPw = () => {
   const { token } = useParams();
-
-  const [formData, setFormData] = useState(initialState)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  useEffect(() => {
-    const handle = async () => {
-      let res = await httpGetRequest({
-        url: 'user/reset?token=' + token,
-      })
-      console.log(res);
+  const handleSubmit = async () => {
+    let res = await httpPostRequest({
+      url: "user/reset-pw/" + token,
+      body: {
+        password: password,
+        confirmPassword: confirmPassword
+      }
+    })
+
+    if (res.error) {
+      toastr.error(res.errors[0].msg, "Error!")
+      return
     }
-    handle();
-  }, [])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    // axios({
-    //     method: "POST",
-    //     url: "http://localhost:4001/user/login",
-    //     data: { 
-    //         email : formData.email,
-    //         password : formData.password,
-    //     }
-    // },{
-    //     headers: {"Access-Control-Allow-Origin": "*"}
-    // }
-    // ).then(response => {
-    //     console.log(response)
-    // })
-  }
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-
+    toastr.success("Password reset success. Please login to continue.", "Success!")
+    setTimeout(() => {
+      window.location.replace("/login")
+    }, 1000);
   }
 
 
   return (
-    // <div>
-
-    //     <form onSubmit={handleSubmit}>
-
-
-    //         <input
-    //             type="text"
-    //             name="password"
-    //             placeholder="password"
-    //             onChange={handleChange}
-    //             required
-    //         />
-    //          <input
-    //             type="text"
-    //             name="rePassword"
-    //             placeholder="ReEnterpassword"
-    //             onChange={handleChange}
-    //             required
-    //         />
-
-
-    //         <button type="submit">Reset Password</button>
-
-    //     </form>
-
-
-    // </div>
-
     <React.Fragment>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
@@ -107,13 +65,11 @@ const ResetPw = () => {
                         <Label>New Password</Label>
                         <Input
                           name="password"
-                          label="Password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           className="form-control"
                           placeholder="Enter New Password"
                           type="password"
-                          required
                         />
                       </div>
                       <div className="mb-3">
@@ -125,13 +81,13 @@ const ResetPw = () => {
                           className="form-control"
                           placeholder="Re-enter New Password"
                           type="password"
-                          required
                         />
                       </div>
                       <div className="mt-3 d-grid">
                         <button
                           className="btn btn-primary btn-block waves-effect waves-light"
-                          type="submit"
+                          type="button"
+                          onClick={() => handleSubmit()}
                         >
                           Update password
                         </button>
