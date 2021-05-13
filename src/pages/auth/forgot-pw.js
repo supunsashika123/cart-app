@@ -2,54 +2,33 @@ import React, { useState } from 'react'
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
 import { Link } from "react-router-dom";
 import { httpPostRequest } from '../../helpers/networkRequestHelper';
-
-const initialState = { email: '' }
+import ErrorPreviewer from '../../components/common/ErrorPreviewer';
+import toastr from "toastr"
 
 const ForgetPw = () => {
-
-  const [formData, setFormData] = useState(initialState)
   const [email, setEmail] = useState('')
+  const [formErrors, setFormErrors] = useState([])
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    setFormErrors([])
 
     let res = await httpPostRequest({
-      url: 'user/forget-pw',
+      url: 'user/forgot-pw',
       body: {
-        email: formData.email,
+        email: email,
       }
     })
 
+    if (res.error) {
+      setFormErrors(res.errors)
+      return
+    }
 
+    toastr.success("Please check your email for reset password link.", "Success!")
+    setEmail('')
   }
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
 
   return (
-    // <div>
-
-    //   <form onSubmit={handleSubmit}>
-
-
-    //     <input
-    //       type="text"
-    //       name="email"
-    //       placeholder="Email"
-    //       onChange={handleChange}
-    //       required
-    //     />
-
-
-    //     <button type="submit">Send</button>
-
-    //   </form>
-
-
-    // </div>
-
-
     <React.Fragment>
       <div className="home-btn d-none d-sm-block">
         <Link to="/" className="text-dark">
@@ -73,7 +52,6 @@ const ForgetPw = () => {
                   </Row>
                 </div>
                 <CardBody className="pt-0">
-
                   <div className="p-2">
                     <Form
                       className="form-horizontal"
@@ -87,14 +65,15 @@ const ForgetPw = () => {
                           onChange={(e) => setEmail(e.target.value)}
                           className="form-control"
                           placeholder="Enter email"
-                          type="email"
-                          required
+                          type="text"
                         />
                       </div>
+                      <ErrorPreviewer errors={formErrors} />
                       <div className="mt-3 d-grid">
                         <button
                           className="btn btn-primary btn-block waves-effect waves-light"
-                          type="submit"
+                          type="button"
+                          onClick={() => handleSubmit()}
                         >
                           Send reset password email
                         </button>
@@ -103,7 +82,6 @@ const ForgetPw = () => {
                   </div>
                 </CardBody>
               </Card>
-
             </Col>
           </Row>
         </Container>
