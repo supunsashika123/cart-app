@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { AppContext } from '../../store';
-import Button from '../../components/common/Button'
+import Button from '../../components/common/button'
 
 const Login = () => {
     const { state, setState } = useContext(AppContext)
