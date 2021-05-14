@@ -97,7 +97,7 @@ const Sidebar = props => {
 
                 <li>
                   <Link to="/#" className="has-arrow waves-effect">
-                    <i className="bx bx-store"></i>
+                    <i className="bx bx-food-menu"></i>
                     <span>Food Items</span>
                   </Link>
                   <ul className="sub-menu" aria-expanded="true">
@@ -113,7 +113,7 @@ const Sidebar = props => {
                 </li>
                 <li>
                   <Link to="/#" className="has-arrow waves-effect">
-                    <i className="bx bx-store"></i>
+                    <i className="bx bx-file"></i>
                     <span>Orders</span>
                   </Link>
                   <ul className="sub-menu" aria-expanded="false">
@@ -124,7 +124,7 @@ const Sidebar = props => {
                 </li>
                 <li>
                   <Link to="/#" className="has-arrow waves-effect">
-                    <i className="bx bx-store"></i>
+                    <i className="bx bx-user"></i>
                     <span>Profile</span>
                   </Link>
                   <ul className="sub-menu" aria-expanded="false">

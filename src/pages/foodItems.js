@@ -98,7 +98,7 @@ const FoodItems = () => {
                 </Col>
               </Row>
               <Row>
-                {foods.length &&
+                {foods.length > 0 &&
                   foods.map((food, key) => (
                     <Col xl="2" sm="4" key={"_col_" + key}>
                       <Card>

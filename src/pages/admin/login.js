@@ -102,7 +102,14 @@ const Login = () => {
                       </div>
                     </Form>
                   </div>
+                  <div style={{ textAlign: 'center', marginTop: 20 }}>
+                    <Link to="/login" className="text-muted">
+                      <i className="bx bx-user me-1" />
+                          Login as normal user?
+                        </Link>
+                  </div>
                 </CardBody>
+
               </Card>
             </Col>
           </Row>

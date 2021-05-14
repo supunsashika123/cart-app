@@ -36,7 +36,7 @@ const Login = () => {
 
   const startUserSession = (token, user) => {
     localStorage.setItem('TOKEN', token)
-    setState({ user: { ...state.user, name: 'updated name' } })
+    setState({ user: user })
     history.push("/")
   }
 
@@ -165,9 +165,9 @@ const Login = () => {
                           Forgot your password?
                         </Link>
                       </div>
-                      <div style={{ textAlign: 'center' }}>
+                      <div style={{ textAlign: 'center', marginTop: 10 }}>
                         <Link to="/admin/login" className="text-muted">
-                          <i className="mdi mdi-lock me-1" />
+                          <i className="bx bx-user me-1" />
                           Login as admin?
                         </Link>
                       </div>

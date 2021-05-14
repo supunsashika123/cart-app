@@ -52,7 +52,6 @@ const Orders = () => {
 
   const tableRowEvents = {
     onClick: (e, row) => {
-      console.log(row);
       setSelectedOrder(row)
       setShowModal(true)
     },
@@ -123,7 +122,7 @@ const Orders = () => {
                               </thead>
                               <tbody>
                                 {selectedOrder && selectedOrder.items && selectedOrder.items.map((i) => (
-                                  <tr>
+                                  <tr key={i.item._id}>
                                     <th scope="row">
                                       <div>
                                         <img src={i.item.image} alt="" className="avatar-sm" />
