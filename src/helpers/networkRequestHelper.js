@@ -3,7 +3,7 @@ import { BASE_API_URL } from "../config";
 
 export async function httpGenericGetRequest(params = null) {
   console.log(params.url);
-  let token = ''
+  let token = localStorage.getItem("TOKEN")
   return fetch(params.url, {
     method: 'GET',
     headers: {
@@ -54,7 +54,7 @@ export async function httpGetRequest(params = null) {
 
 export async function httpDeleteRequest(params = null) {
   console.log(BASE_API_URL + params.url);
-  let token = ''
+  let token = localStorage.getItem("TOKEN")
 
   return fetch(BASE_API_URL + params.url, {
     method: 'DELETE',
@@ -81,7 +81,7 @@ export async function httpDeleteRequest(params = null) {
 
 export async function httpPostRequest(params) {
   console.log(BASE_API_URL + params.url);
-  let token = ''
+  let token = localStorage.getItem("TOKEN")
 
   return fetch(BASE_API_URL + params.url, {
     method: 'POST',
@@ -110,7 +110,7 @@ export async function httpPostRequest(params) {
 
 export async function httpPutRequest(params) {
   console.log(BASE_API_URL + params.url);
-  let token = ''
+  let token = localStorage.getItem("TOKEN")
 
   return fetch(BASE_API_URL + params.url, {
     method: 'PUT',

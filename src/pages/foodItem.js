@@ -10,6 +10,7 @@ import {
 } from "reactstrap"
 import { httpGetRequest, httpPostRequest } from '../helpers/networkRequestHelper';
 import { AppContext } from '../store';
+import toastr from "toastr"
 
 const Product = () => {
   const [food, setFood] = useState({})
@@ -31,9 +32,8 @@ const Product = () => {
 
   const handleAddToCart = async () => {
     let res = await httpPostRequest({
-      url: "cart/",
+      url: "cart",
       body: {
-        userId: '',
         items: [{
           itemId: food._id,
           qty: 1
@@ -41,6 +41,17 @@ const Product = () => {
         update: new Date()
       }
     })
+
+    if (res.errors) {
+      toastr.error("Something went wrong!", "Error!")
+
+      return
+    }
+
+    toastr.success("Item added to cart!", "Success!")
+    setTimeout(() => {
+      window.location.replace("/cart")
+    }, 2000);
   }
 
   return (
@@ -99,14 +110,7 @@ const Product = () => {
                             >
                               <i className="bx bx-cart me-2" /> Add to cart
                               </Button>
-                            <Button
-                              type="button"
-                              color="success"
-                              className="ms-1 btn waves-effect  mt-2 waves-light"
-                            >
-                              <i className="bx bx-shopping-bag me-2" />
-                                Buy now
-                              </Button>
+
                           </div>
                         </div>
                       </Col>
