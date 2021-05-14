@@ -12,6 +12,7 @@ import FoodItem from './pages/foodItem'
 import AddFood from './pages/admin/addFood'
 import Foods from './pages/admin/foods'
 import FoodOrders from './pages/admin/orders'
+import AdminLogin from './pages/admin/login'
 
 const userRoutes = [
   { path: "/", component: FoodItems },
@@ -24,6 +25,7 @@ const adminRoutes = [
     { path: "/admin/new-product", component: AddFood },
     { path: "/admin/products", component: Foods },
     { path: "/admin/orders", component: FoodOrders },
+    
 ]
 
 const authRoutes = [
@@ -31,6 +33,8 @@ const authRoutes = [
   { path: "/sign-up", component: Signup },
   { path: "/forgot-password", component: Forgotpass },
   { path: "/reset-password/:token", component: Resetpass },
+  { path: "/admin/login", component: AdminLogin },
+
 ]
 
 export { authRoutes, userRoutes, adminRoutes };
