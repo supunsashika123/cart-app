@@ -39,9 +39,9 @@ const Header = (props) => {
             <NavItem>
               <NavLink onClick={() => gotoRoute("/")}>Food Items</NavLink>
             </NavItem>
-            <NavItem>
+            {Object.keys(state.cart).length > 1 && <NavItem>
               <NavLink onClick={() => gotoRoute("/cart")}>My Cart</NavLink>
-            </NavItem>
+            </NavItem>}
             <NavItem>
               <NavLink onClick={() => gotoRoute("/orders")}>My Orders</NavLink>
             </NavItem>

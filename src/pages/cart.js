@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -10,15 +10,19 @@ import {
   InputGroup,
   InputGroupAddon,
   Row,
+  Spinner,
   Table,
 } from "reactstrap";
-import { Link, withRouter } from "react-router-dom";
-import { httpGetRequest, httpPutRequest } from "../helpers/networkRequestHelper";
+import { Link, useHistory } from "react-router-dom";
+import { httpGetRequest, httpPostRequest, httpPutRequest } from "../helpers/networkRequestHelper";
 import { AppContext } from '../store';
+import toastr from "toastr"
+import { confirmAlert } from 'react-confirm-alert';
 
 const Cart = () => {
-
   const { state, setState } = useContext(AppContext)
+  const history = useHistory()
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCart()
@@ -30,7 +34,6 @@ const Cart = () => {
     })
 
     setState({ cart: res.data })
-
   }
 
   const removeCartItem = async ({ itemId }) => {
@@ -42,7 +45,6 @@ const Cart = () => {
 
       return i.itemId != itemId
     })
-    console.log(updatedItems)
 
     let updatedCart = { ...cart, items: updatedItems }
 
@@ -51,8 +53,11 @@ const Cart = () => {
       body: updatedCart
     })
 
-    setState({ cart: updatedCart })
+    setState({ cart: res.data })
 
+    if (!Object.keys(res.data).length) {
+      history.push("/")
+    }
   }
 
   const updateCartItem = async (itemId, newQty) => {
@@ -73,7 +78,7 @@ const Cart = () => {
       body: updatedCart
     })
 
-    setState({ cart: updatedCart })
+    setState({ cart: res.data })
   }
 
   const countUP = (item) => {
@@ -82,6 +87,45 @@ const Cart = () => {
 
   const countDown = (item) => {
     updateCartItem(item.itemId, item.qty - 1)
+  }
+
+  const handleCheckoutOrder = (row) => {
+    confirmAlert({
+      title: 'Confirm!',
+      message: 'Have you finished selecting food?',
+      buttons: [
+        {
+          label: 'Place Order',
+          onClick: () => placeOrder(row)
+        },
+        {
+          label: 'Not yet!',
+          onClick: () => { }
+        }
+      ]
+    });
+  }
+
+  const placeOrder = async () => {
+    let cart = { ...state.cart }
+
+    let filteredItems = cart.items.map(i => {
+      delete i.item
+
+      return i
+    })
+
+    let res = await httpPostRequest({
+      url: "order",
+      body: { ...state.cart, items: filteredItems }
+    })
+
+    toastr.success("Order placed successfully!", "Success!")
+
+    setTimeout(() => {
+      history.push("/order")
+      setState({ cart: {} })
+    }, 1000);
   }
 
   console.log(state)
@@ -132,12 +176,13 @@ const Cart = () => {
                                 <InputGroup>
                                   <InputGroupAddon addonType="prepend">
                                     <Button
+                                      disabled={foodItem.qty < 2}
                                       color="primary"
                                       onClick={() => {
-                                        countUP(foodItem);
+                                        countDown(foodItem);
                                       }}
                                     >
-                                      +
+                                      -
                                     </Button>
                                   </InputGroupAddon>
                                   <Input
@@ -148,14 +193,14 @@ const Cart = () => {
                                   />
                                   <InputGroupAddon addonType="append">
                                     <Button
-                                      disabled={foodItem.qty < 2}
                                       color="primary"
                                       onClick={() => {
-                                        countDown(foodItem);
+                                        countUP(foodItem);
                                       }}
                                     >
-                                      -
+                                      +
                                     </Button>
+
                                   </InputGroupAddon>
                                 </InputGroup>
                               </div>
@@ -188,13 +233,17 @@ const Cart = () => {
                     </Col>
                     <Col sm="6">
                       <div className="text-sm-end mt-2 mt-sm-0">
-                        <Link
-                          to="/ecommerce-checkout"
-                          className="btn btn-success"
-                        >
-                          <i className="mdi mdi-cart-arrow-right me-1" />{" "}
+                        {loading ?
+                          <Spinner className="ms-2" color="primary" /> :
+                          <Button
+                            onClick={() => handleCheckoutOrder()}
+                            className="btn btn-success"
+                            disabled={loading}
+                          >
+                            <i className="mdi mdi-cart-arrow-right me-1" />{" "}
                           Checkout{" "}
-                        </Link>
+                          </Button>
+                        }
                       </div>
                     </Col>
                   </Row>
@@ -202,11 +251,9 @@ const Cart = () => {
               </Card>
             </Col>
             <Col xl="4">
-
               <Card>
                 <CardBody>
                   <CardTitle className="mb-3 h4">Order Summary</CardTitle>
-
                   <div className="table-responsive">
                     <Table className="table mb-0">
                       <tbody>
@@ -215,27 +262,12 @@ const Cart = () => {
                           <td>LKR {state.cart.total}</td>
                         </tr>
                         <tr>
-                          <td>Discount :</td>
-                          <td>LKR 0</td>
-                        </tr>
-                        <tr>
-                          <td>Shipping Charge :</td>
-                          <td>LKR 0</td>
-                        </tr>
-                        <tr>
-                          <td>Estimated Tax :</td>
-                          <td>LKR 0</td>
-                        </tr>
-                        <tr>
                           <th>Total :</th>
                           <td>LKR {state.cart.total}</td>
                         </tr>
                       </tbody>
                     </Table>
                   </div>
-
-
-
                 </CardBody>
               </Card>
             </Col>

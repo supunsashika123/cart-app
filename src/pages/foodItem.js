@@ -49,12 +49,10 @@ const Product = () => {
       return
     }
 
-    setState({ cart: res.data })
-
     toastr.success("Item added to cart!", "Success!")
     setTimeout(() => {
       history.push("/cart")
-    }, 2000);
+    }, 1000);
   }
 
   return (
