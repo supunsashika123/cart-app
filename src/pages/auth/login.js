@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { AppContext } from '../../store';
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
@@ -13,6 +13,7 @@ const Login = () => {
   const [formErrors, setFormErrors] = useState([])
   const [rememberMe, setRememberMe] = useState(false)
   const { state, setState } = useContext(AppContext)
+  const history = useHistory()
 
   const handleLoginPress = async () => {
     setFormErrors([])
@@ -36,7 +37,7 @@ const Login = () => {
   const startUserSession = (token, user) => {
     localStorage.setItem('TOKEN', token)
     setState({ user: { ...state.user, name: 'updated name' } })
-    window.location.replace('/')
+    history.push("/")
   }
 
   const onGoogleLoginSuccess = async (response) => {

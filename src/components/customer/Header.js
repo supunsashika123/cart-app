@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router';
 import {
   Collapse,
   Navbar,
@@ -14,6 +15,7 @@ import { AppContext } from '../../store';
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { state, setState } = useContext(AppContext)
+  const history = useHistory()
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -22,6 +24,9 @@ const Header = (props) => {
     window.location.replace("/login")
   }
 
+  const gotoRoute = (nextRoute) => {
+    history.push(nextRoute)
+  }
 
   return (
     <div>
@@ -32,13 +37,13 @@ const Header = (props) => {
           <Nav className="mr-auto" navbar>
             <NavbarText style={{ color: 'red', marginRight: 20 }}>Welcome! {state.user.name}</NavbarText>
             <NavItem>
-              <NavLink href="/">Food Items</NavLink>
+              <NavLink onClick={() => gotoRoute("/")}>Food Items</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/cart">My Cart</NavLink>
+              <NavLink onClick={() => gotoRoute("/cart")}>My Cart</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="/orders">My Orders</NavLink>
+              <NavLink onClick={() => gotoRoute("/orders")}>My Orders</NavLink>
             </NavItem>
             <NavItem>
               <NavLink onClick={() => logout()}>Logout</NavLink>

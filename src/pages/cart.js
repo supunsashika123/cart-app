@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   Button,
   Card,
@@ -13,8 +13,36 @@ import {
   Table,
 } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
+import { httpGetRequest } from "../helpers/networkRequestHelper";
+import { AppContext } from '../store';
 
 const Cart = () => {
+
+  const { state, setState } = useContext(AppContext)
+
+  useEffect(() => {
+    fetchCart()
+  }, [])
+
+  const fetchCart = async () => {
+    let res = await httpGetRequest({
+      url: "cart"
+    })
+
+    setState({ cart: res.data })
+
+  }
+
+  const countUP = () => {
+
+
+  }
+
+  const countDown = () => {
+
+  }
+
+  console.log(state)
   return (
     <React.Fragment>
       <div className="page-content">
@@ -35,11 +63,11 @@ const Cart = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {/* {map(productList, (product) => (
-                          <tr key={product.id}>
+                        {state.cart && state.cart.items && state.cart.items.map((foodItem) => (
+                          <tr key={foodItem.item._id}>
                             <td>
                               <img
-                                src={images[product.img]}
+                                src={foodItem.item.image}
                                 alt="product-img"
                                 title="product-img"
                                 className="avatar-md"
@@ -48,20 +76,15 @@ const Cart = () => {
                             <td>
                               <h5 className="font-size-14 text-truncate">
                                 <Link
-                                  to={"/ecommerce-products/" + product.id}
+                                  to={"/food/" + foodItem.item._id}
                                   className="text-dark"
                                 >
-                                  {product.name}
+                                  {foodItem.item.name}
                                 </Link>
                               </h5>
-                              <p className="mb-0">
-                                Color :{" "}
-                                <span className="fw-medium">
-                                  {product.color}
-                                </span>
-                              </p>
+
                             </td>
-                            <td>$ {product.price}</td>
+                            <td>LKR {foodItem.item.price}</td>
                             <td>
                               <div style={{ width: "120px" }}>
                                 <InputGroup>
@@ -70,8 +93,8 @@ const Cart = () => {
                                       color="primary"
                                       onClick={() => {
                                         this.countUP(
-                                          product.id,
-                                          product.data_attr
+                                          foodItem._id,
+                                          foodItem.data_attr
                                         );
                                       }}
                                     >
@@ -80,7 +103,7 @@ const Cart = () => {
                                   </InputGroupAddon>
                                   <Input
                                     type="text"
-                                    value={product.data_attr}
+                                    value={foodItem.qty}
                                     name="demo_vertical"
                                     readOnly
                                   />
@@ -89,8 +112,8 @@ const Cart = () => {
                                       color="primary"
                                       onClick={() => {
                                         this.countDown(
-                                          product.id,
-                                          product.data_attr
+                                          foodItem._id,
+                                          foodItem.data_attr
                                         );
                                       }}
                                     >
@@ -100,11 +123,11 @@ const Cart = () => {
                                 </InputGroup>
                               </div>
                             </td>
-                            <td>$ {product.total}</td>
+                            <td>LKR {foodItem.qty * foodItem.item.price}</td>
                             <td>
                               <Link
                                 to="#"
-                                onClick={() => this.removeCartItem(product.id)}
+                                onClick={() => this.removeCartItem(foodItem.id)}
                                 className="action-icon text-danger"
                               >
                                 {" "}
@@ -112,93 +135,14 @@ const Cart = () => {
                               </Link>
                             </td>
                           </tr>
-                        ))} */}
-
-                      
-                          <tr key="">
-                            <td>
-                              <img
-                                src=""
-                                alt="product-img"
-                                title="product-img"
-                                className="avatar-md"
-                              />
-                            </td>
-                            <td>
-                              <h5 className="font-size-14 text-truncate">
-                                <Link
-                                  to={"/ecommerce-products/" }
-                                  className="text-dark"
-                                >
-                                  name
-                                </Link>
-                              </h5>
-                              <p className="mb-0">
-                                Color :{" "}
-                                <span className="fw-medium">
-                                  color
-                                </span>
-                              </p>
-                            </td>
-                            <td>$ 1234</td>
-                            <td>
-                              <div style={{ width: "120px" }}>
-                                <InputGroup>
-                                  <InputGroupAddon addonType="prepend">
-                                    <Button
-                                      color="primary"
-                                    //   onClick={() => {
-                                    //     this.countUP(
-                                    //       product.id,
-                                    //       product.data_attr
-                                    //     );
-                                    //   }}
-                                    >
-                                      +
-                                    </Button>
-                                  </InputGroupAddon>
-                                  <Input
-                                    type="text"
-                                    value="1"
-                                    name="demo_vertical"
-                                    readOnly
-                                  />
-                                  <InputGroupAddon addonType="append">
-                                    <Button
-                                      color="primary"
-                                    //   onClick={() => {
-                                    //     this.countDown(
-                                    //       product.id,
-                                    //       product.data_attr
-                                    //     );
-                                    //   }}
-                                    >
-                                      -
-                                    </Button>
-                                  </InputGroupAddon>
-                                </InputGroup>
-                              </div>
-                            </td>
-                            <td>$ 1234</td>
-                            <td>
-                              <Link
-                                to="#"
-                                // onClick={() => this.removeCartItem(product.id)}
-                                className="action-icon text-danger"
-                              >
-                                {" "}
-                                <i className="mdi mdi-trash-can font-size-18" />
-                              </Link>
-                            </td>
-                          </tr>
-                       
+                        ))}
                       </tbody>
                     </Table>
                   </div>
                   <Row className="mt-4">
                     <Col sm="6">
                       <Link
-                        to="/ecommerce-products"
+                        to="/"
                         className="btn btn-secondary"
                       >
                         <i className="mdi mdi-arrow-left me-1" /> Continue
@@ -221,65 +165,40 @@ const Cart = () => {
               </Card>
             </Col>
             <Col xl="4">
-              
+
               <Card>
                 <CardBody>
                   <CardTitle className="mb-3 h4">Order Summary</CardTitle>
-                  {/* {orderSummary && (
-                    <div className="table-responsive">
-                      <Table className="table mb-0">
-                        <tbody>
-                          <tr>
-                            <td>Grand Total :</td>
-                            <td>{orderSummary.grandTotal}</td>
-                          </tr>
-                          <tr>
-                            <td>Discount :</td>
-                            <td>- {orderSummary.discount}</td>
-                          </tr>
-                          <tr>
-                            <td>Shipping Charge :</td>
-                            <td>{orderSummary.shippingCharge}</td>
-                          </tr>
-                          <tr>
-                            <td>Estimated Tax :</td>
-                            <td>{orderSummary.estimatedTax}</td>
-                          </tr>
-                          <tr>
-                            <th>Total :</th>
-                            <td>{orderSummary.total}</td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </div>
-                  )} */}
 
                   <div className="table-responsive">
                     <Table className="table mb-0">
                       <tbody>
                         <tr>
                           <td>Grand Total :</td>
-                          <td>$ 1,857</td>
+                          <td>LKR {state.cart.total}</td>
                         </tr>
                         <tr>
                           <td>Discount :</td>
-                          <td>0</td>
+                          <td>LKR 0</td>
                         </tr>
                         <tr>
                           <td>Shipping Charge :</td>
-                          <td>$ 25</td>
+                          <td>LKR 0</td>
                         </tr>
                         <tr>
                           <td>Estimated Tax :</td>
-                          <td>$ 19.22</td>
+                          <td>LKR 0</td>
                         </tr>
                         <tr>
                           <th>Total :</th>
-                          <td>$ 1744.22</td>
+                          <td>LKR {state.cart.total}</td>
                         </tr>
                       </tbody>
                     </Table>
                   </div>
+
+
+
                 </CardBody>
               </Card>
             </Col>

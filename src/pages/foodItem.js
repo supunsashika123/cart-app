@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useParams } from "react-router-dom"
+import { Link, useHistory, useParams } from "react-router-dom"
 import {
   Button,
   Card,
@@ -16,6 +16,7 @@ const Product = () => {
   const [food, setFood] = useState({})
   const { id } = useParams();
   const { state, setState } = useContext(AppContext)
+  const history = useHistory()
 
   console.log(state)
   useEffect(() => {
@@ -48,9 +49,11 @@ const Product = () => {
       return
     }
 
+    setState({ cart: res.data })
+
     toastr.success("Item added to cart!", "Success!")
     setTimeout(() => {
-      window.location.replace("/cart")
+      history.push("/cart")
     }, 2000);
   }
 
