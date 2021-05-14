@@ -3,7 +3,7 @@ import { Alert } from "reactstrap"
 
 const ErrorPreviewer = ({ errors }) => {
   return (<div>
-    {errors.length > 0 && errors.map(e =>
+    {errors && errors.length > 0 && errors.map(e =>
     (<Alert color="danger" role="alert">
       {e.msg}
     </Alert>))

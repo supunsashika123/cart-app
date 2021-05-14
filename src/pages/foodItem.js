@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from "react-router-dom"
 import {
   Button,
@@ -8,12 +8,15 @@ import {
   Container,
   Row,
 } from "reactstrap"
-import { httpGetRequest } from '../helpers/networkRequestHelper';
+import { httpGetRequest, httpPostRequest } from '../helpers/networkRequestHelper';
+import { AppContext } from '../store';
 
 const Product = () => {
   const [food, setFood] = useState({})
   const { id } = useParams();
+  const { state, setState } = useContext(AppContext)
 
+  console.log(state)
   useEffect(() => {
     fetchFoodItem()
   }, [])
@@ -24,6 +27,20 @@ const Product = () => {
     })
 
     setFood(res.data)
+  }
+
+  const handleAddToCart = async () => {
+    let res = await httpPostRequest({
+      url: "cart/",
+      body: {
+        userId: '',
+        items: [{
+          itemId: food._id,
+          qty: 1
+        }],
+        update: new Date()
+      }
+    })
   }
 
   return (
@@ -48,7 +65,6 @@ const Product = () => {
                                   className="img-fluid mx-auto d-block"
                                 />
                               </div>
-
                             </Col>
                           </Row>
                         </div>
@@ -79,6 +95,7 @@ const Product = () => {
                               type="button"
                               color="primary"
                               className="btn waves-effect waves-light mt-2 me-1"
+                              onClick={() => handleAddToCart()}
                             >
                               <i className="bx bx-cart me-2" /> Add to cart
                               </Button>

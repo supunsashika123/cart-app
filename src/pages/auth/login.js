@@ -35,8 +35,8 @@ const Login = () => {
 
   const startUserSession = (token, user) => {
     localStorage.setItem('TOKEN', token)
-    setState({ user: user })
-    window.location.replace('/home')
+    setState({ user: { ...state.user, name: 'updated name' } })
+    window.location.replace('/')
   }
 
   const onGoogleLoginSuccess = async (response) => {
