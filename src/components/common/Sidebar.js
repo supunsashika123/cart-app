@@ -104,6 +104,17 @@ const Sidebar = props => {
                     </li>
                   </ul>
                 </li>
+                <li>
+                  <Link to="/#" className="has-arrow waves-effect">
+                    <i className="bx bx-store"></i>
+                    <span>Food Orders</span>
+                  </Link>
+                  <ul className="sub-menu" aria-expanded="true">
+                    <li>
+                      <Link to="/admin/orders">Food Orders List</Link>
+                    </li>
+                  </ul>
+                </li>
               </ul>
             </div>
           </SimpleBar>
