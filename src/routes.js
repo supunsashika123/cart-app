@@ -25,6 +25,7 @@ const adminRoutes = [
     { path: "/admin/new-product", component: AddFood },
     { path: "/admin/products", component: Foods },
     { path: "/admin/orders", component: FoodOrders },
+    
 ]
 
 const authRoutes = [
@@ -33,6 +34,7 @@ const authRoutes = [
   { path: "/forgot-password", component: Forgotpass },
   { path: "/reset-password/:token", component: Resetpass },
   { path: "/admin/login", component: AdminLogin },
+
 ]
 
 export { authRoutes, userRoutes, adminRoutes };

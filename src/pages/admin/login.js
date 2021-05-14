@@ -16,7 +16,7 @@ const Login = () => {
     setFormErrors([])
 
     let res = await httpPostRequest({
-      url: 'admin/login',
+      url: 'user/admin/login',
       body: {
         email: email,
         password: password,
@@ -26,9 +26,9 @@ const Login = () => {
       setFormErrors(res.errors)
       return
     }
-
-    setState({ user: res.data.user })
-    window.location.replace('/admin/products')
+    console.log(res.data)
+    setState({ user:res.data.user })
+    // window.location.replace('/admin/products')
     
   }
 
