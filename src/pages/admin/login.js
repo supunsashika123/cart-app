@@ -1,16 +1,17 @@
 import React, { useContext, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { AppContext } from '../../store';
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
 import ErrorPreviewer from '../../components/common/ErrorPreviewer';
 
-
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('admin@gmail.com')
+  const [password, setPassword] = useState('admin')
   const [formErrors, setFormErrors] = useState([])
   const { state, setState } = useContext(AppContext)
+  const history = useHistory()
+
 
   const handleLoginPress = async () => {
     setFormErrors([])
@@ -22,14 +23,16 @@ const Login = () => {
         password: password,
       }
     })
+
     if (res.error) {
       setFormErrors(res.errors)
       return
     }
+
     console.log(res.data)
-    setState({ user:res.data.user })
-    // window.location.replace('/admin/products')
-    
+    localStorage.setItem("TOKEN", res.data.token)
+    setState({ user: res.data.user })
+    history.replace('/admin/products')
   }
 
   return (

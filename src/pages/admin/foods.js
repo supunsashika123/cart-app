@@ -125,7 +125,7 @@ const Foods = () => {
     })
     setLoading(false)
     if (res.error) {
-      toastr.error("Add food failed.", "Error!")
+      toastr.error("Delete food failed.", "Error!")
 
       return false
     }

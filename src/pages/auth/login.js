@@ -165,6 +165,12 @@ const Login = () => {
                           Forgot your password?
                         </Link>
                       </div>
+                      <div style={{ textAlign: 'center' }}>
+                        <Link to="/admin/login" className="text-muted">
+                          <i className="mdi mdi-lock me-1" />
+                          Login as admin?
+                        </Link>
+                      </div>
                     </Form>
                   </div>
                 </CardBody>
