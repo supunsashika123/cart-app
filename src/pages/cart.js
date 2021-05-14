@@ -13,7 +13,7 @@ import {
   Table,
 } from "reactstrap";
 import { Link, withRouter } from "react-router-dom";
-import { httpGetRequest } from "../helpers/networkRequestHelper";
+import { httpGetRequest, httpPutRequest } from "../helpers/networkRequestHelper";
 import { AppContext } from '../store';
 
 const Cart = () => {
@@ -33,13 +33,55 @@ const Cart = () => {
 
   }
 
-  const countUP = () => {
+  const removeCartItem = async ({ itemId }) => {
+    let cart = { ...state.cart }
 
+    let updatedItems = cart.items.filter(i => {
+      console.log(i.itemId)
+      console.log(itemId)
+
+      return i.itemId != itemId
+    })
+    console.log(updatedItems)
+
+    let updatedCart = { ...cart, items: updatedItems }
+
+    let res = await httpPutRequest({
+      url: "cart/" + state.cart._id,
+      body: updatedCart
+    })
+
+    setState({ cart: updatedCart })
 
   }
 
-  const countDown = () => {
+  const updateCartItem = async (itemId, newQty) => {
+    let cart = { ...state.cart }
 
+    let updatedItems = cart.items.map(i => {
+      if (i.itemId === itemId) {
+        i.qty = newQty
+      }
+
+      return i
+    })
+
+    let updatedCart = { ...cart, updatedItems }
+
+    let res = await httpPutRequest({
+      url: "cart/" + state.cart._id,
+      body: updatedCart
+    })
+
+    setState({ cart: updatedCart })
+  }
+
+  const countUP = (item) => {
+    updateCartItem(item.itemId, item.qty + 1)
+  }
+
+  const countDown = (item) => {
+    updateCartItem(item.itemId, item.qty - 1)
   }
 
   console.log(state)
@@ -92,10 +134,7 @@ const Cart = () => {
                                     <Button
                                       color="primary"
                                       onClick={() => {
-                                        this.countUP(
-                                          foodItem._id,
-                                          foodItem.data_attr
-                                        );
+                                        countUP(foodItem);
                                       }}
                                     >
                                       +
@@ -109,12 +148,10 @@ const Cart = () => {
                                   />
                                   <InputGroupAddon addonType="append">
                                     <Button
+                                      disabled={foodItem.qty < 2}
                                       color="primary"
                                       onClick={() => {
-                                        this.countDown(
-                                          foodItem._id,
-                                          foodItem.data_attr
-                                        );
+                                        countDown(foodItem);
                                       }}
                                     >
                                       -
@@ -127,7 +164,7 @@ const Cart = () => {
                             <td>
                               <Link
                                 to="#"
-                                onClick={() => this.removeCartItem(foodItem.id)}
+                                onClick={() => removeCartItem(foodItem)}
                                 className="action-icon text-danger"
                               >
                                 {" "}
