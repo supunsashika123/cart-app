@@ -12,8 +12,6 @@ import {
   Row,
   Table,
 } from "reactstrap";
-//Import Breadcrumb
-import Breadcrumbs from "../components/common/Breadcrumb";
 import { Link, withRouter } from "react-router-dom";
 
 const Cart = () => {
@@ -21,7 +19,6 @@ const Cart = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
-          <Breadcrumbs title="Ecommerce" breadcrumbItem="Cart" />
           <Row>
             <Col lx="8">
               <Card>
@@ -224,56 +221,7 @@ const Cart = () => {
               </Card>
             </Col>
             <Col xl="4">
-              <Card>
-                <CardBody>
-                  <CardTitle className="mb-4 h5">Card Details</CardTitle>
-
-                  <div className="card bg-primary text-white visa-card mb-0">
-                    <CardBody>
-                      <div>
-                        <i className="bx bxl-visa visa-pattern" />
-
-                        <div className="float-end">
-                          <i className="bx bxl-visa visa-logo display-3" />
-                        </div>
-
-                        <div>
-                          <i className="bx bx-chip h1 text-warning" />
-                        </div>
-                      </div>
-
-                      <Row className="mt-5">
-                        <Col xs="4">
-                          <p>
-                            <i className="fas fa-star-of-life m-1" />
-                            <i className="fas fa-star-of-life m-1" />
-                            <i className="fas fa-star-of-life m-1" />
-                          </p>
-                        </Col>
-                        <Col xs="4">
-                          <p>
-                            <i className="fas fa-star-of-life m-1" />
-                            <i className="fas fa-star-of-life m-1" />
-                            <i className="fas fa-star-of-life m-1" />
-                          </p>
-                        </Col>
-                        <Col xs="4">
-                          <p>
-                            <i className="fas fa-star-of-life m-1" />
-                            <i className="fas fa-star-of-life m-1" />
-                            <i className="fas fa-star-of-life m-1" />
-                          </p>
-                        </Col>
-                      </Row>
-
-                      <div className="mt-5">
-                        <h5 className="text-white float-end mb-0">12/22</h5>
-                        <h5 className="text-white mb-0">Fredrick Taylor</h5>
-                      </div>
-                    </CardBody>
-                  </div>
-                </CardBody>
-              </Card>
+              
               <Card>
                 <CardBody>
                   <CardTitle className="mb-3 h4">Order Summary</CardTitle>
@@ -315,7 +263,7 @@ const Cart = () => {
                         </tr>
                         <tr>
                           <td>Discount :</td>
-                          <td>- $ 157</td>
+                          <td>0</td>
                         </tr>
                         <tr>
                           <td>Shipping Charge :</td>
