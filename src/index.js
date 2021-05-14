@@ -9,7 +9,7 @@ import App from './App';
 const Provider = () => {
 
   const initialState = {
-    user: { name: 'test' }
+    user: { name: '' }
   }
 
   const [state, setState] = useState(initialState);

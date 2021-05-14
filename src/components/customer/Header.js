@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   Collapse,
   Navbar,
@@ -9,11 +9,19 @@ import {
   NavLink,
   NavbarText
 } from 'reactstrap';
+import { AppContext } from '../../store';
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { state, setState } = useContext(AppContext)
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const logout = () => {
+    localStorage.clear()
+    window.location.replace("/login")
+  }
+
 
   return (
     <div>
@@ -22,7 +30,7 @@ const Header = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavbarText style={{ color: 'red', marginRight: 20 }}>Welcome! Supun</NavbarText>
+            <NavbarText style={{ color: 'red', marginRight: 20 }}>Welcome! {state.user.name}</NavbarText>
             <NavItem>
               <NavLink href="/">Food Items</NavLink>
             </NavItem>
@@ -31,6 +39,9 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <NavLink href="/orders">My Orders</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink onClick={() => logout()}>Logout</NavLink>
             </NavItem>
           </Nav>
         </Collapse>

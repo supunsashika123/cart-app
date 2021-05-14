@@ -11,7 +11,8 @@ export async function httpGenericGetRequest(params = null) {
     },
   })
     .then(async (response) => {
-      if (response.status === 403) {
+      if (response.status === 401) {
+        logout()
       }
 
       return response.json();
@@ -27,7 +28,7 @@ export async function httpGenericGetRequest(params = null) {
 
 export async function httpGetRequest(params = null) {
   console.log(BASE_API_URL + params.url);
-  let token = ''
+  let token = localStorage.getItem("TOKEN")
 
   return fetch(BASE_API_URL + params.url, {
     method: 'GET',
@@ -36,7 +37,8 @@ export async function httpGetRequest(params = null) {
     },
   })
     .then(async (response) => {
-      if (response.status === 403) {
+      if (response.status === 401) {
+        logout()
       }
 
       return response.json();
@@ -61,7 +63,8 @@ export async function httpDeleteRequest(params = null) {
     },
   })
     .then(async (response) => {
-      if (response.status === 403) {
+      if (response.status === 401) {
+        logout()
       }
 
       return response.json();
@@ -90,7 +93,8 @@ export async function httpPostRequest(params) {
     body: JSON.stringify(params.body),
   })
     .then(async (response) => {
-      if (response.status === 403) {
+      if (response.status === 401) {
+        logout()
       }
 
       return response.json();
@@ -118,7 +122,8 @@ export async function httpPutRequest(params) {
     body: JSON.stringify(params.body),
   })
     .then(async (response) => {
-      if (response.status === 403) {
+      if (response.status === 401) {
+        logout()
       }
 
       return response.json();
@@ -132,3 +137,7 @@ export async function httpPutRequest(params) {
     });
 }
 
+function logout() {
+  localStorage.clear()
+  window.location.replace("/login")
+}
