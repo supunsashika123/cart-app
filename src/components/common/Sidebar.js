@@ -42,6 +42,11 @@ const Sidebar = props => {
     }
   }
 
+  function handleLogoutPress() {
+    localStorage.clear()
+    window.location.replace("/admin/login")
+  }
+
   function activateParentDropdown(item) {
     item.classList.add("active")
     const parent = item.parentElement
@@ -86,8 +91,10 @@ const Sidebar = props => {
         <div data-simplebar className="h-100">
           <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
             <div id="sidebar-menu">
+
               <ul className="metismenu list-unstyled" id="side-menu">
                 <li className="menu-title">Menu</li>
+
                 <li>
                   <Link to="/#" className="has-arrow waves-effect">
                     <i className="bx bx-store"></i>
@@ -107,17 +114,31 @@ const Sidebar = props => {
                 <li>
                   <Link to="/#" className="has-arrow waves-effect">
                     <i className="bx bx-store"></i>
-                    <span>Food Orders</span>
+                    <span>Orders</span>
                   </Link>
-                  <ul className="sub-menu" aria-expanded="true">
+                  <ul className="sub-menu" aria-expanded="false">
                     <li>
-                      <Link to="/admin/orders">Food Orders List</Link>
+                      <Link to="/admin/orders">Orders List</Link>
                     </li>
+                  </ul>
+                </li>
+                <li>
+                  <Link to="/#" className="has-arrow waves-effect">
+                    <i className="bx bx-store"></i>
+                    <span>Profile</span>
+                  </Link>
+                  <ul className="sub-menu" aria-expanded="false">
+                    <li>
+                      <Link onClick={() => handleLogoutPress()}>Logout</Link>
+                    </li>
+                    
                   </ul>
                 </li>
               </ul>
             </div>
           </SimpleBar>
+          
+          
         </div>
       </div>
     </React.Fragment>
