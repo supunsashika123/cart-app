@@ -6,15 +6,8 @@ import {
   CardBody,
   Col,
   Container,
-  Nav,
-  NavItem,
-  NavLink,
   Row,
-  TabContent,
-  Table,
-  TabPane,
 } from "reactstrap"
-import { productImages } from "../assets/images/product"
 import { httpGetRequest } from '../helpers/networkRequestHelper';
 
 const Product = () => {

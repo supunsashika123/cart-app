@@ -1,12 +1,9 @@
 import PropTypes from 'prop-types'
 import React, { useState } from "react"
-
-import { Row, Col } from "reactstrap"
-
 import { Link } from "react-router-dom"
 
 // Reactstrap
-import { Dropdown, DropdownToggle, DropdownMenu } from "reactstrap"
+import { Dropdown, DropdownToggle } from "reactstrap"
 
 
 // import megamenuImg from "../../assets/images/megamenu-img.png"
@@ -18,10 +15,7 @@ import logoDark from "../../assets/images/logo-dark.png"
 
 const Header = props => {
   const [search, setsearch] = useState(false)
-  const [megaMenu, setmegaMenu] = useState(false)
   const [socialDrp, setsocialDrp] = useState(false)
-
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
   function toggleFullscreen() {
     if (

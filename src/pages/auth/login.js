@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useState } from 'react'
+import { Link } from "react-router-dom";
 import { httpPostRequest } from '../../helpers/networkRequestHelper';
 import { AppContext } from '../../store';
 import { Row, Col, CardBody, Card, Label, Container, Form, Input } from "reactstrap"
@@ -8,7 +8,6 @@ import ErrorPreviewer from '../../components/common/ErrorPreviewer';
 import toastr from "toastr"
 
 const Login = () => {
-  const history = useHistory();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [formErrors, setFormErrors] = useState([])

@@ -119,10 +119,11 @@ const Foods = () => {
   }
 
   const deleteFoodItem = async (row) => {
+    setLoading(true)
     let res = await httpDeleteRequest({
       url: 'food/' + row._id
     })
-
+    setLoading(false)
     if (res.error) {
       toastr.error("Add food failed.", "Error!")
 

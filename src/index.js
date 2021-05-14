@@ -31,9 +31,9 @@ const Provider = () => {
 }
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.Fragment>
     <Provider />
-  </React.StrictMode>,
+  </React.Fragment>,
   document.getElementById('root')
 );
 
