@@ -298,11 +298,9 @@ const Foods = () => {
                             </div>
                           </Col>
                         </Row>
-
                       </Form>
                     </CardBody>
                   </Card>
-
                   <Card>
                     <CardBody>
                       <CardTitle className="mb-3">Product Images</CardTitle>
