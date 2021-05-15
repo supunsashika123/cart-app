@@ -104,13 +104,7 @@ const FoodItems = () => {
                       <Card>
                         <CardBody>
                           <div className="product-img position-relative">
-
-                            <img
-                              src={food.image}
-                              alt=""
-                              className="img-fluid mx-auto d-block"
-                              style={{ height: 200, width: 200 }}
-                            />
+                            <div style={{ backgroundImage: `url("${food.image}")`, height: 200, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}></div>
                           </div>
                           <div className="mt-4 text-center">
                             <h5 className="mb-3 text-truncate">
