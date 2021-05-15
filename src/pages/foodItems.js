@@ -109,6 +109,7 @@ const FoodItems = () => {
                               src={food.image}
                               alt=""
                               className="img-fluid mx-auto d-block"
+                              style={{ height: 200, width: 200 }}
                             />
                           </div>
                           <div className="mt-4 text-center">
