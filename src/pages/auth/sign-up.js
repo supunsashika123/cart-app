@@ -40,7 +40,7 @@ const SignUp = () => {
   const startUserSession = (token, user) => {
     localStorage.setItem('TOKEN', token)
     setState({ user: user })
-    window.location.replace('/home')
+    window.location.replace('/')
   }
 
   const onGoogleLoginSuccess = async (response) => {
