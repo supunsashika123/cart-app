@@ -136,20 +136,20 @@ const Orders = () => {
                                         <p className="text-muted mb-0">LKR {i.item.price} x {i.qty}</p>
                                       </div>
                                     </td>
-                                    <td>LKR {i.item.price * i.qty}</td>
+                                    <td>LKR {Number(i.item.price * i.qty).toFixed(2)}</td>
                                   </tr>
                                 ))}
                                 <tr>
                                   <td colSpan="2">
                                     <h6 className="m-0 text-right">Sub Total:</h6>
                                   </td>
-                                  <td>LKR {selectedOrder.total}</td>
+                                  <td>LKR {Number(selectedOrder.total).toFixed(2)}</td>
                                 </tr>
                                 <tr>
                                   <td colSpan="2">
                                     <h6 className="m-0 text-right">Total:</h6>
                                   </td>
-                                  <td>LKR {selectedOrder.total}</td>
+                                  <td>LKR {Number(selectedOrder.total).toFixed(2)}</td>
                                 </tr>
                               </tbody>
                             </Table>

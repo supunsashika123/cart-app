@@ -1,23 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
   Card,
   CardTitle,
-  CardSubtitle,
   CardBody,
   Table,
   Col,
   Container,
   Row,
   Modal,
-  Input,
-  Label,
-  Spinner,
-  Alert,
-  Button,
   Form
 } from "reactstrap"
 import BootstrapTable from "react-bootstrap-table-next"
@@ -42,7 +32,7 @@ const Orders = () => {
 
   useEffect(() => {
     fetchOrders()
-  }, [])
+  }, [showModal])
 
   const fetchOrders = async () => {
     let res = await httpGetRequest({
@@ -130,7 +120,6 @@ const Orders = () => {
                             <div>Status :</div>
                             <div>
                               <select value={selectedOrder.status} onChange={(e) => updateOrderStatus(e.target.value)}>
-                                <option value={"Pending"}>Pending</option>
                                 <option value={"Preparing"}>Preparing</option>
                                 <option value={"ReadyToPickup"}>ReadyToPickup</option>
                                 <option value={"Declined"}>Declined</option>
@@ -165,20 +154,20 @@ const Orders = () => {
                                         <p className="text-muted mb-0">LKR {i.item.price} x {i.qty}</p>
                                       </div>
                                     </td>
-                                    <td>LKR {i.item.price * i.qty}</td>
+                                    <td>LKR {Number(i.item.price * i.qty).toFixed(2)}</td>
                                   </tr>
                                 ))}
                                 <tr>
                                   <td colSpan="2">
                                     <h6 className="m-0 text-right">Sub Total:</h6>
                                   </td>
-                                  <td>LKR {selectedOrder.total}</td>
+                                  <td>LKR {Number(selectedOrder.total).toFixed()}</td>
                                 </tr>
                                 <tr>
                                   <td colSpan="2">
                                     <h6 className="m-0 text-right">Total:</h6>
                                   </td>
-                                  <td>LKR {selectedOrder.total}</td>
+                                  <td>LKR {Number(selectedOrder.total).toFixed()}</td>
                                 </tr>
                               </tbody>
                             </Table>

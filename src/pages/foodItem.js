@@ -97,7 +97,7 @@ const Product = () => {
                           )}
                           <h5 className="mb-4">
                             Price :{" "}
-                            <b>LKR {food.price}</b>
+                            <b>LKR {Number(food.price).toFixed(2)}</b>
                           </h5>
                           <p className="text-muted mb-4">
                             {food.description}

@@ -123,7 +123,7 @@ const Cart = () => {
     toastr.success("Order placed successfully!", "Success!")
 
     setTimeout(() => {
-      history.push("/order")
+      history.push("/orders")
       setState({ cart: {} })
     }, 1000);
   }
@@ -170,7 +170,7 @@ const Cart = () => {
                               </h5>
 
                             </td>
-                            <td>LKR {foodItem.item.price}</td>
+                            <td>LKR {Number(foodItem.item.price).toFixed(2)}</td>
                             <td>
                               <div style={{ width: "120px" }}>
                                 <InputGroup>
@@ -205,7 +205,7 @@ const Cart = () => {
                                 </InputGroup>
                               </div>
                             </td>
-                            <td>LKR {foodItem.qty * foodItem.item.price}</td>
+                            <td>LKR {Number(foodItem.qty * foodItem.item.price).toFixed(2)}</td>
                             <td>
                               <Link
                                 to="#"
@@ -259,11 +259,11 @@ const Cart = () => {
                       <tbody>
                         <tr>
                           <td>Grand Total :</td>
-                          <td>LKR {state.cart.total}</td>
+                          <td>LKR {Number(state.cart.total).toFixed(2)}</td>
                         </tr>
                         <tr>
                           <th>Total :</th>
-                          <td>LKR {state.cart.total}</td>
+                          <td>LKR {Number(state.cart.total).toFixed(2)}</td>
                         </tr>
                       </tbody>
                     </Table>

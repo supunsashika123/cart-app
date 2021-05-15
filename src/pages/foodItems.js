@@ -124,7 +124,7 @@ const FoodItems = () => {
 
                             </div>
                             <h5 className="my-0">
-                              <b>LKR{food.price}</b>
+                              <b>LKR {Number(food.price).toFixed(2)}</b>
                             </h5>
                           </div>
                         </CardBody>
